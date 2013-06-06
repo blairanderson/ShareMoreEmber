@@ -5,10 +5,26 @@
 <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootswatch/2.3.2/flatly/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+       <a class="brand" href="/">EmberCrapSharer</a>
+       <div class="nav-collapse collapse" id="main-menu">
+        <ul class="nav" id="main-menu-left">
+          <li><a id="create" href="#">Create</a></li>
+        </ul>
+       </div>
+     </div>
+   </div>
+ </div>
 <a href="/">Home</a>
 
 
@@ -20,21 +36,44 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">
-
+<div>
   {{#view App.FormView}}
+  <div class="span1">
+    <label for="title">Article Title</label>
+  </div>
+  <div class="span3">
     {{view Ember.TextField valueBinding="controller.title"}}
-    {{view Ember.TextField valueBinding="controller.body"}}
-    <button type="submit">Done</button>
-  {{/view}}
-  
-  </form>
-    <ul>
-    {{#each item in model}}
-  <a href="/#/article/{{unbound item.article_id}}" target="_blank">{{item.title}}</a>
+  </div>
 
-      <li>{{item.article_id}} | {{item.created_at}}</li>
+  <div class="span1">
+    <label for="body">Article Body</label>
+  </div>
+  <div class="span3">
+    {{view Ember.TextField valueBinding="controller.body"}}
+  </div>
+
+  <div class="span3">
+    <button type="submit" class="btn btn-success">Submit to Server</button>
+  </div>
+  {{/view}}
+  </div>
+
+    <table class="table">
+    <tr>
+    <th>Article</th>
+    <th>URL</th>
+    <th>Title</th>
+    <th>Created At</th>
+    </tr>
+    {{#each item in model}}
+    <tr>
+      <td><a href="/#/article/{{unbound item.article_id}}">{{item.article_id}}</a></td>
+      <td><a href="{{unbound item.url}}" target="_blank">{{item.url}}</a></td>
+      <td>{{item.title}}</td>
+      <td>{{item.created_at}}</td>
     {{/each}}
-    </ul>
+    </tr>
+    </table>
   </script>
 
   <script type="text/x-handlebars" data-template-name="articles">
