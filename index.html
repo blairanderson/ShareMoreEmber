@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<a href="/">Home</a>
+
+
 
   <script type="text/x-handlebars">
     <h2>Welcome to Ember.js</h2>
@@ -15,10 +18,34 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">
+
+  {{#view App.FormView}}
+    {{view Ember.TextField valueBinding="controller.title"}}
+    {{view Ember.TextField valueBinding="controller.body"}}
+    <button type="submit">Done</button>
+  {{/view}}
+  
+  </form>
     <ul>
     {{#each item in model}}
-      <li>{{item.title}}</li>
+  <a href="/#/article/{{unbound item.article_id}}" target="_blank">{{item.title}}</a>
+
+      <li>{{item.article_id}} | {{item.created_at}}</li>
     {{/each}}
+    </ul>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="articles">
+    <ul>
+    {{#each}}
+      <li>{{article_id}} | {{title}}</li>
+    {{/each}}
+    </ul>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="article">
+    <ul>
+      <li>{{article_id}} | {{title}}</li>
     </ul>
 
   </script>
