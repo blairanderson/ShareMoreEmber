@@ -1,6 +1,19 @@
 App = Ember.Application.create();
 
+App.Auth = Ember.Auth.create
+  # ...
+  sessionAdapter: 'cookie' // default 'cookie'
+  modules: ['rememberable']
+  # remember to include any other modules you use
+  
+  rememberable:
+    tokenKey: 'remember_token'
+    period: 14 # default 14
+    autoRecall: true # default true
+
+
 App.Router.map(function() {
+  this.resource('create');
   this.resource('articles');
   this.resource('article', { path: '/article/:article_id'});
 });
@@ -14,31 +27,6 @@ App.Articles = Ember.Model.extend({
   article_id: attr(),
   url: attr()
 });
-
-// App.IndexController = Ember.Controller.extend({
-
-// });
-
-App.FormView = Ember.View.extend({
-  tagName: "form",
-
-  submit: function(event) {
-    var myURL="http://share-more.herokuapp.com/api/v1/articles?access_token=JDVr-w8bxoU";
-
-  $.ajax({
-    url: myURL,
-    data: {"access_token" : "JDVr-w8bxoU", "article" : {"title" : event.target[0].value , "body" : event.target[1].value} },
-    type: 'POST'
-  });
-  
-//{title: event.target[0].value, body: event.target[1].value}
-    //{title: event.target[0].value, body: event.target[1].value}
-
-    // will be invoked whenever the user triggers
-    // the browser's `submit` method
-  }
-});
-
 
 App.Articles.url = "http://share-more.herokuapp.com/api/v1/articles";
 App.Articles.adapter = Ember.RESTAdapter.create();
@@ -60,3 +48,32 @@ App.IndexRoute = Ember.Route.extend({
     return App.Articles.findQuery({access_token: "JDVr-w8bxoU"});
   }
 });
+
+App.CreateRoute = Ember.Route.extend({
+  model: function() {
+    return [];
+  }
+});
+
+
+App.FormView = Ember.View.extend({
+  tagName: "form",
+
+  submit: function(event) {
+    var myURL="http://share-more.herokuapp.com/api/v1/articles?access_token=JDVr-w8bxoU";
+
+  $.ajax({
+    url: myURL,
+    data: {"access_token" : "JDVr-w8bxoU", "article" : {"title" : event.target[0].value , "body" : event.target[1].value} },
+    type: 'POST'
+  });
+  }
+});
+
+App.TokenView = Ember.View.extend({
+  tagName: "token",
+  submit: function(event) {
+    var access_token = event.target[0].value;
+  }
+});
+console.log(access_token);

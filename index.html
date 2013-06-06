@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Ember Starter Kit</title>
+<title>ShareMore Ember Starter Kit</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="//netdna.bootstrapcdn.com/bootswatch/2.3.2/flatly/bootstrap.min.css" rel="stylesheet">
@@ -16,11 +16,18 @@
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
        </a>
-       <a class="brand" href="/">EmberCrapSharer</a>
+       <a class="brand" href="/">ShareMore&Ember</a>
        <div class="nav-collapse collapse" id="main-menu">
         <ul class="nav" id="main-menu-left">
-          <li><a id="create" href="#">Create</a></li>
+          <li><a id="articles" href="/#/articles">Articles</a></li>
+          <li><a id="create" href="/#/create">Create</a></li>
         </ul>
+        <div class="pull-right">
+          <form class="form-search pull-right">
+            <input type="text" class="search-query" placeholder="API Token" style="padding: 0px 0px 0px 0px ;margin: 6px 1px -5px 0px;">
+            <button type="submit" class="btn btn-mini">Go</button>
+          </form>
+        </div>
        </div>
      </div>
    </div>
@@ -30,38 +37,33 @@
 
 
   <script type="text/x-handlebars">
-    <h2>Welcome to Ember.js</h2>
+  <div class="container" style="padding-top:30px;">
+      {{#view App.TokenView}}
+      <div class="span1">
+        <label for="token">API TOKEN</label>
+      </div>
+      <div class="span3">
+        {{view Ember.TextField valueBinding="controller.token"}}
+      </div>
 
+      <div class="span3">
+        <button type="submit" class="btn btn-success">Submit to Server</button>
+      </div>
+    {{/view}}
+  </div>
+  
+  <div class="container">
     {{outlet}}
+  </div>
   </script>
 
+<!-- INDEX TEMPLATE -->
   <script type="text/x-handlebars" data-template-name="index">
-<div>
-  {{#view App.FormView}}
-  <div class="span1">
-    <label for="title">Article Title</label>
-  </div>
-  <div class="span3">
-    {{view Ember.TextField valueBinding="controller.title"}}
-  </div>
-
-  <div class="span1">
-    <label for="body">Article Body</label>
-  </div>
-  <div class="span3">
-    {{view Ember.TextField valueBinding="controller.body"}}
-  </div>
-
-  <div class="span3">
-    <button type="submit" class="btn btn-success">Submit to Server</button>
-  </div>
-  {{/view}}
-  </div>
-
+    <h2>Welcome to ShareMore & Ember.js</h2>
     <table class="table">
     <tr>
-    <th>Article</th>
-    <th>URL</th>
+    <th>Article Identifier</th>
+    <th>Live URL</th>
     <th>Title</th>
     <th>Created At</th>
     </tr>
@@ -76,19 +78,53 @@
     </table>
   </script>
 
+
+<!-- ARTICLES TEMPLATE -->
   <script type="text/x-handlebars" data-template-name="articles">
-    <ul>
     {{#each}}
-      <li>{{article_id}} | {{title}}</li>
+      <div class="media" style="width:400px;border:1px dashed black;">
+        <div class="media-body">
+          <h4 class="media-heading"><a href="/#/article/{{unbound article_id}}">{{title}}</a></h4>
+          
+          {{body}}
+          <h5 class="pull-right">ID: {{article_id}}</h5>
+        </div>
+      </div>
     {{/each}}
-    </ul>
   </script>
 
+<!-- ARTICLE SHOW TEMPLATE -->
   <script type="text/x-handlebars" data-template-name="article">
-    <ul>
-      <li>{{article_id}} | {{title}}</li>
-    </ul>
+    <p style="font-family: 'freight-sans-pro','Myriad Pro','Lucida Grande','Lucida Sans Unicode','Lucida Sans',Geneva,Verdana,sans-serif;font-weight: 700;margin: 20px 20px 20px 20px;font-size: 60px;line-height: 1;">{{title}}</p>
+    
+<p style="font-weight: 400; font-size: 32px; line-height: 1.45;margin: 20px 20px 20px 20px">{{body}}</p>
+<div class="well">
+<p>local link:<a href="/#/article/{{unbound article_id}}">{{article_id}}</a></p>
+<p>external link:{{url}}</p>
+</div>
 
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="create">
+    {{#view App.FormView}}
+      <div class="span1">
+        <label for="title">Article Title</label>
+      </div>
+      <div class="span3">
+        {{view Ember.TextField valueBinding="controller.title"}}
+      </div>
+
+      <div class="span1">
+        <label for="body">Article Body</label>
+      </div>
+      <div class="span3">
+        {{view Ember.TextField valueBinding="controller.body"}}
+      </div>
+
+      <div class="span3">
+        <button type="submit" class="btn btn-success">Submit to Server</button>
+      </div>
+    {{/view}}
   </script>
 
   <script src="js/libs/jquery-1.9.1.js"></script>
