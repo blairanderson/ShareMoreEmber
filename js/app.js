@@ -1,17 +1,5 @@
 App = Ember.Application.create();
 
-App.Auth = Ember.Auth.create
-  # ...
-  sessionAdapter: 'cookie' // default 'cookie'
-  modules: ['rememberable']
-  # remember to include any other modules you use
-  
-  rememberable:
-    tokenKey: 'remember_token'
-    period: 14 # default 14
-    autoRecall: true # default true
-
-
 App.Router.map(function() {
   this.resource('create');
   this.resource('articles');
@@ -74,6 +62,7 @@ App.TokenView = Ember.View.extend({
   tagName: "token",
   submit: function(event) {
     var access_token = event.target[0].value;
+    console.log(access_token);
+
   }
 });
-console.log(access_token);
